@@ -37,6 +37,17 @@ class FrontEndTestCase(TestCase):
             else:
                 self.assertNotContains(resp, title)
 
+    def test_details_only_published(self):
+        for count in range(1, 11):
+            title = "Post %d Title" % count
+            post = Post.objects.get(title=title)
+            resp = self.client.get('/posts/%d/' % post.pk)
+            if count < 6:
+                self.assertEqual(resp.status_code, 200)
+                self.assertContains(resp, title)
+            else:
+                self.assertEqual(resp.status_code, 404)
+
 
 class PostTestCase(TestCase):
     fixtures = ['blogging_test_fixture.json', ]
