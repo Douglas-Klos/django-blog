@@ -6,7 +6,8 @@ body {
     padding:0;
 }
 #container {
-    margin:0;
+    max-width: 960px;
+    margin: auto;
     padding:0;
     margin-top: 0px;
 }
