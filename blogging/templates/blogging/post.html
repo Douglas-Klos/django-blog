@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+{% block content %}
+ 
+    <form method="post" >
+        {% csrf_token %}
+        Title:<br>{{ form.title }}<br>
+        Content:<br>{{ form.text }}<br>
+        Author:{{ form.author }}<br>
+        Publish:{{ form.publish }}<br>
+        {{ form.published_date.as_hidden }}<br>
+        
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+{% endblock %}

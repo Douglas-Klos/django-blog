@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
+from django.utils import timezone
 from blogging.models import Post
-
+from blogging.forms import PostForm
+from datetime import datetime
 
 def stub_view(request, *args, **kwargs):
     body = "Stub View\n\n"
@@ -40,3 +42,26 @@ def detail_view(request, post_id):
 
     context = {'post': post}
     return render(request, 'blogging/detail.html', context)
+
+
+def add_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            new_post = Post()
+            new_post.title = form.cleaned_data['title']
+            new_post.text = form.cleaned_data['text']
+            new_post.author = form.cleaned_data['author']
+
+            if form.cleaned_data['publish']:
+                new_post.published_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            new_post.save()
+
+            # model_instance = form.save(commit=False)
+            # model_instance.timestamp = timezone.now()
+            # model_instance.save()
+            return redirect('/')
+    else:
+        form = PostForm()
+        return render(request, "blogging/post.html", {'form': form})

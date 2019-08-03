@@ -1,3 +1,9 @@
+# Lesson 08 Assignment Notes
+
+Addons:
+ModelForms
+
+
 # Lesson 07 Assignment Notes
 
 After Joe mentioned some people had their git repo setup incorrectly for the django blog assignment I moved the .git folder up into the
