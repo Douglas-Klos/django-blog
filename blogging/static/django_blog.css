@@ -83,3 +83,17 @@ p.post-body {
     padding: 1em;
     border-width: 3px;
 }
+
+.col-container {
+    display: table; /* Make the container element behave like a table */
+    width: 100%; /* Set full-width to expand the whole page */
+}
+
+.col {
+    display: table-cell; /* Make elements inside the container behave like table cells */
+}
+
+
+a, u {
+    text-decoration: none;
+}

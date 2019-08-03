@@ -4,12 +4,22 @@
  
     <form method="post" >
         {% csrf_token %}
-        Title:<br>{{ form.title }}<br>
-        Content:<br>{{ form.text }}<br>
-        Author:{{ form.author }}<br>
-        Publish:{{ form.publish }}<br>
-        {{ form.published_date.as_hidden }}<br>
+        Title:<br>{{ form.title }}<br><br>
+        Content:<br>{{ form.text }}<br><br>
         
+        <label>Categories</label>
+        <select  name="selected_category">
+            {% for category in form.categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <br><br>
+
+
+        {% comment %} Category: {{ form.categories }}<br><br> {% endcomment %}
+        Publish? {{ form.publish }}<br><br>
+        <br>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 {% endblock %}
