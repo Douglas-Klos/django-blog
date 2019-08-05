@@ -41,7 +41,7 @@ def detail_view(request, post_id):
     return render(request, 'blogging/detail.html', context)
 
 
-def add_post(request):
+def add_post_view(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             form = PostForm(request.POST)

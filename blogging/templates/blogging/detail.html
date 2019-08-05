@@ -1,5 +1,20 @@
 {% extends "base.html" %} {% block content %}
 
+    <div class="col-container">
+        {% if user.is_authenticated %}
+        <div class="col" align="right">
+            <button id="newPost">New Post</button>
+            <script type="text/javascript">
+                document.getElementById("newPost").onclick = function () {
+                    location.href = "/add/";
+                };
+            </script>
+         </div>
+         {% endif %}
+    </div>
+    <br>
+
+    <div class="post">
     <h1>{{ post }}</h1>
     <p class="byline">
         <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
@@ -15,5 +30,5 @@
             <li>{{ category }}</li><br>
         {% endfor %}
     </ul>
-
+    </div>
 {% endblock %}

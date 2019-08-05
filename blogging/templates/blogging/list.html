@@ -8,12 +8,12 @@
         {% if user.is_authenticated %}
         <div class="col" align="right">
             
-                <button id="newPost">New Post</button>
-                <script type="text/javascript">
-                    document.getElementById("newPost").onclick = function () {
-                        location.href = "add/";
-                    };
-                </script>
+            <button id="newPost">New Post</button>
+            <script type="text/javascript">
+                document.getElementById("newPost").onclick = function () {
+                    location.href = "add/";
+                };
+            </script>
          </div>
          {% endif %}
     </div>
@@ -21,9 +21,9 @@
     {% comment %} here is where the query happens {% endcomment %}
     {% for post in posts %}
     <div class="post">
-        <h2>
+        <h3>
             <a href="{% url 'blog_detail' post.pk %}">{{ post }}</a>
-        </h2>
+        </h3>
 
         <p class="byline">
             <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
@@ -40,6 +40,7 @@
             {% endfor %}
         </ul>
     </div>
+    <br>
     {% endfor %}
 {% endblock %}
         

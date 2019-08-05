@@ -1,7 +1,14 @@
 # Lesson 08 Assignment Notes
 
 Addons:
-ModelForms
+
+## ModelForms
+
+I created a model form for adding a new post outside of the admin panel.  This view
+requires that the user be logged in (and redirects them to login if they're not) before
+presenting the page for adding a new post.  Input boxes for the title, content, a checkbox
+for publish, and a dropdown of categories are presented to the user.  The current user
+is assumed to be the author.
 
 
 # Lesson 07 Assignment Notes
