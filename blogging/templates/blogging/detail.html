@@ -4,11 +4,11 @@
         {% if user.is_authenticated %}
         <div class="col" align="right">
             <button id="newPost">New Post</button>
-            <script type="text/javascript">
-                document.getElementById("newPost").onclick = function () {
-                    location.href = "/add/";
-                };
-            </script>
+                <script type="text/javascript">
+                    document.getElementById("newPost").onclick = function () {
+                        location.href = "/add/";
+                    };
+                </script>
          </div>
          {% endif %}
     </div>

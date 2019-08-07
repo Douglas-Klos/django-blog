@@ -18,4 +18,4 @@ class LatestEntriesFeed(Feed):
         return item.text
 
     def item_link(self, item):
-        return reverse('rss_view')
+        return reverse('blog_detail', args=[item.id])

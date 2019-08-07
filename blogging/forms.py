@@ -9,3 +9,12 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text']
+
+
+class PublishForm(ModelForm):
+
+    publish = BooleanField(initial=False, required=False)
+
+    class Meta:
+        model = Post
+        fields = []
