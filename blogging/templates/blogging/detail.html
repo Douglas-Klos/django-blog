@@ -15,20 +15,26 @@
     <br>
 
     <div class="post">
-        <h1>{{ post }}</h1>
-        <p class="byline">
-            <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
-        </p>
+        <h2 style="margin: 0">
+            {{ post.title }}
+        </h2>
 
-        <p class="post-body">
-            {{ post.text }}
-        </p>
-                
-        <b>Categories:</b><br>
-        <ul class="categories">
-            {% for category in post.categories.all %}
-                <li>{{ category }}</li><br>
-            {% endfor %}
-        </ul>
+        <p class="post-body" style="white-space: pre-wrap;">{{ post.text }}</p>
+
+        <div class="col-container">
+            <div class="col">
+                <b>Categories:</b><br>
+                <ul class="categories">
+                    {% for category in post.categories.all %}
+                        <li>{{ category }}</li><br>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col" align="right">
+                {{ post.author.username }}<br>
+                {{ post.published_date }}
+            </div>
+        </div>
+
     </div>
 {% endblock %}
