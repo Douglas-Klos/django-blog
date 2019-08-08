@@ -1,5 +1,6 @@
-from django.forms import ModelForm, BooleanField
+from django.forms import ModelForm, BooleanField, DecimalField
 from blogging.models import Post, Category
+
 
 class PostForm(ModelForm):
 
@@ -8,12 +9,19 @@ class PostForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'text']
+        fields = ["title", "text"]
 
 
 class PublishForm(ModelForm):
+    post_id = DecimalField()
 
-    publish = BooleanField(initial=False, required=False)
+    class Meta:
+        model = Post
+        fields = []
+
+
+class ListForm(ModelForm):
+    post_id = DecimalField()
 
     class Meta:
         model = Post

@@ -4,12 +4,12 @@ from blogging.models import Post
 
 
 class LatestEntriesFeed(Feed):
-    title = "My Blog Feed"
+    title = "Glorious Blog Feed"
     link = "/rss/"
-    description = "RSS Feed of my glorious blog"
+    description = "RSS Feed of My Glorious Blog"
 
     def items(self):
-        return Post.objects.all().order_by('-published_date')
+        return Post.objects.all().order_by("-published_date")
 
     def item_title(self, item):
         return item.title
@@ -18,4 +18,4 @@ class LatestEntriesFeed(Feed):
         return item.text
 
     def item_link(self, item):
-        return reverse('blog_detail', args=[item.id])
+        return reverse("blog_detail", args=[item.id])

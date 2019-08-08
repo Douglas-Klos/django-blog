@@ -3,41 +3,64 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from django.utils import timezone
 from blogging.models import Post, Category
-from blogging.forms import PostForm, PublishForm
-from datetime import datetime
-
-
-def stub_view(request, *args, **kwargs):
-    body = "Stub View\n\n"
-
-    if args:
-        body += "Args:\n"
-        body += "\n".join(["\t%s" % a for a in args])
-
-    if kwargs:
-        body += "Kwargs:\n"
-        body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
-
-    return HttpResponse(body, content_type="text/plain")
+from blogging.forms import PostForm, PublishForm, ListForm
 
 
 def list_view(request):
-    published = Post.objects.exclude(published_date__exact=None)
-    posts = published.order_by("-published_date")
-    context = {"posts": posts}
-    return render(request, "blogging/list.html", context)
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect("/login")
+
+        form = PublishForm(request.POST)
+
+        if form.is_valid():
+            post = Post.objects.get(id=form.cleaned_data["post_id"])
+
+            if request.user == post.author:
+                post.published_date = None
+                post.save()
+                return redirect("/")
+        else:
+            print(form.errors)
+
+    form = PublishForm()
+
+    published = Post.objects.exclude(published_date__exact=None).order_by(
+        "-published_date"
+    )
+
+    return render(request, "blogging/list.html", {"posts": published})
 
 
-def detail_view(request, post_id):
-    published = Post.objects.exclude(published_date__exact=None)
+def unpublished_view(request):
+    """
+    Returns a form displaying all unpublished posts for the current user.
+    Each post includes a publish button that publishes the post with the current time
+    """
 
-    try:
-        post = published.get(pk=post_id)
-    except Post.DoesNotExist:
-        raise Http404
+    if not request.user.is_authenticated:
+        return redirect("/login")
 
-    context = {"post": post}
-    return render(request, "blogging/detail.html", context)
+    if request.method == "POST":
+        form = PublishForm(request.POST)
+
+        if form.is_valid():
+            post = Post.objects.get(id=form.cleaned_data["post_id"])
+            if request.user == post.author:
+                post.published_date = timezone.now()
+                post.save()
+                return redirect("/unpublished/")
+        else:
+            print(form.errors)
+            return redirect("/")
+
+    unpublished = (
+        Post.objects.exclude(published_date__isnull=False)
+        .filter(author=request.user)
+        .order_by("-created_date")
+    )
+
+    return render(request, "blogging/unpublished.html", {"posts": unpublished})
 
 
 def add_post_view(request):
@@ -51,9 +74,7 @@ def add_post_view(request):
                 new_post.author = request.user
 
                 if form.cleaned_data["publish"]:
-                    new_post.published_date = timezone.now().strftime(
-                        "%Y-%m-%d %H:%M:%S"
-                    )
+                    new_post.published_date = timezone.now()
 
                 new_post.save()
 
@@ -70,46 +91,27 @@ def add_post_view(request):
         return redirect("/login")
 
 
-def unpublished_view(request):
-        
-    if not request.user.is_authenticated:
-        return redirect('/login')
-    
-    if request.method == "POST":
-        form = PublishForm(request.POST)        
-        if form.is_valid():
-            print("valid form")
-            return redirect('/unpublished/')
-        else:
-            print(form.errors)
-        
-    form = PublishForm()
+def detail_view(request, post_id):
+    published = Post.objects.exclude(published_date__exact=None)
 
-    unpublished = (
-        Post.objects.exclude(published_date__isnull=False)
-        .filter(author=request.user)
-        .order_by("-created_date")
-    )
+    try:
+        post = published.get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404
 
-    return render(request, 'blogging/unpublished.html', {'posts': unpublished})
+    context = {"post": post}
+    return render(request, "blogging/detail.html", context)
 
-    # if not request.user.is_authenticated:
-    #     return redirect("/login")
 
-    # if request.method == "POST":
-    #     form = PublishForm(request.POST)
-    #     if form.is_valid():
-    #         print("Valid Form")
-    #         return redirect("unpublished/")
-    #     else:
-    #         print("Invalid Form")
+def stub_view(request, *args, **kwargs):
+    body = "Stub View\n\n"
 
-    # else:
-    #     unpublished = (
-    #         Post.objects.exclude(published_date__isnull=False)
-    #         .filter(author=request.user)
-    #         .order_by("-created_date")
-    #     )
-    #     form = PublishForm()
-    #     context = {"posts": unpublished}
-    #     return render(request, "blogging/unpublished.html", context)
+    if args:
+        body += "Args:\n"
+        body += "\n".join(["\t%s" % a for a in args])
+
+    if kwargs:
+        body += "Kwargs:\n"
+        body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
+
+    return HttpResponse(body, content_type="text/plain")

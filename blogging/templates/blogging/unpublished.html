@@ -3,31 +3,26 @@
 
     <form method="post">
         {% csrf_token %}
+
         <h1>Unpublished Posts</h1>
 
         {% if posts.count > 0 %}
             {% for post in posts %}
-            <div class="post">
-                <b>Title: {{ post.title }}</b><br>
-                <b>Text: {{ post.text }}</b><br>
 
-
-                {% comment %} <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }} {% endcomment %}
-
-
+                <div class="post">
+                    <b>{{ post.title }}</b><br><br>
+                    <b>Author:</b> {{ post.author.username }}
+                    <p class="post-body" style="white-space: pre-wrap;">{{ post.text }}</p>
+                    <button type="submit" value="{{ post.id }}" name="post_id">Publish</button>
+                </div>
+  
                 <br>
-                <button type="submit" class="btn btn-default">Publish</button>
-            </div>
-            <br>
             {% endfor %}
 
         {% else %}
             <p>You have no unpublished posts</p>
             
         {% endif %}
-    {{ post.title }}
-    {{ post.text }}
     
     </form>
 {% endblock %}
-        

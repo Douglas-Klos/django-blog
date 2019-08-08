@@ -1,5 +1,8 @@
 # Lesson 08 Assignment Notes
 
+I liked this weeks assignment, it felt like actually putting work in and creating a site
+instead of just following instructions.
+
 ## RSS Feed
 
 I don't have much experience working with RSS feeds, but I believe that I have this
@@ -9,13 +12,23 @@ post.
 
 ## ModelForms
 
-I created a model form for adding a new post outside of the admin panel.  This view
+Without Model Forms this whole website is basically useless, you don't want to have
+to go to the backend to add posts everytime on a blog.
+
+So I created a model form for adding a new post outside of the admin panel.  This view
 requires that the user be logged in (and redirects them to login if they're not) before
 presenting the page for adding a new post.  Input boxes for the title, content, a
-checkbox for publish, and a dropdown of categories are presented to the user.  The 
+checkbox for publish, and a dropdown of categories are presented to the user.  The
 current user is assumed to be the author.
 
----
+A new view called 'unpublished' was added.  This page displays all of the users current
+unpublished posts, incluing a publish button for each post.  If the publish button is
+clicked for a specific post, it is published with the current time and the user is
+returned the unpublished posts view.
+
+The main list display view has been updated with an 'unpublish' button that is presented
+to the user on each of their posts.  This allows the user to unpublish the post.
+Unpublished posts can be republished from the unpublished view.
 
 # Lesson 07 Assignment Notes
 

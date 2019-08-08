@@ -2,33 +2,33 @@
 
     <div class="col-container">
         {% if user.is_authenticated %}
-        <div class="col" align="right">
-            <button id="newPost">New Post</button>
+            <div class="col" align="right">
+                <button id="newPost">New Post</button>
                 <script type="text/javascript">
                     document.getElementById("newPost").onclick = function () {
                         location.href = "/add/";
                     };
                 </script>
-         </div>
+            </div>
          {% endif %}
     </div>
     <br>
 
     <div class="post">
-    <h1>{{ post }}</h1>
-    <p class="byline">
-        <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
-    </p>
+        <h1>{{ post }}</h1>
+        <p class="byline">
+            <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
+        </p>
 
-    <p class="post-body">
-        {{ post.text }}
-    </p>
-            
-    <b>Categories:</b><br>
-    <ul class="categories">
-        {% for category in post.categories.all %}
-            <li>{{ category }}</li><br>
-        {% endfor %}
-    </ul>
+        <p class="post-body">
+            {{ post.text }}
+        </p>
+                
+        <b>Categories:</b><br>
+        <ul class="categories">
+            {% for category in post.categories.all %}
+                <li>{{ category }}</li><br>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

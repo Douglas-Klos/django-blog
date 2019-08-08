@@ -6,40 +6,47 @@
         </div>
 
         {% if user.is_authenticated %}
-        <div class="col" align="right">
-            <button id="newPost">New Post</button>
-            <script type="text/javascript">
-                document.getElementById("newPost").onclick = function () {
-                    location.href = "add/";
-                };
-            </script>
-         </div>
+            <div class="col" align="right">
+                <button id="newPost">New Post</button>
+                <script type="text/javascript">
+                    document.getElementById("newPost").onclick = function () {
+                        location.href = "add/";
+                    };
+                </script>
+            </div>
          {% endif %}
     </div>
     
-    {% comment %} here is where the query happens {% endcomment %}
-    {% for post in posts %}
-    <div class="post">
-        <h3>
-            <a href="{% url 'blog_detail' post.pk %}">{{ post }}</a>
-        </h3>
+    <form method="post">
+        {% csrf_token %}
 
-        <p class="byline">
-            <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
-        </p>
+        {% for post in posts %}
+            <div class="post">
+                <b>
+                    <a href="{% url 'blog_detail' post.pk %}">{{ post }}</a>
+                </b>
 
-        <p class="post-body">
-            {{ post.text }}
-        </p>
-        
-        <b>Categories:</b><br>
-        <ul class="categories">
-            {% for category in post.categories.all %}
-                <li>{{ category }}</li><br>
-            {% endfor %}
-        </ul>
-    </div>
-    <br>
-    {% endfor %}
+                <p class="byline">
+                    <b>Author:</b> {{ post.author.username }} &mdash; {{ post.published_date }}
+                </p>
+
+                <p class="post-body" style="white-space: pre-wrap;">{{ post.text }}</p>
+                
+                <b>Categories:</b><br>
+                <ul class="categories">
+                    {% for category in post.categories.all %}
+                        <li>{{ category }}</li><br>
+                    {% endfor %}
+                </ul>
+
+                
+                {% if post.author == user %}
+                    <br>
+                        <button type="submit" value="{{ post.id }}" name="post_id">Unpublish</button>
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+    </form>
 {% endblock %}
         
