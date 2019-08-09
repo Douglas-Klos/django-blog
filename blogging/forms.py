@@ -1,11 +1,17 @@
 from django.forms import ModelForm, BooleanField, DecimalField
+from django.db.utils import OperationalError
 from blogging.models import Post, Category
 
 
 class PostForm(ModelForm):
 
     publish = BooleanField(initial=False, required=False)
-    categories = [category for category in Category.objects.all()]
+
+    # The try block is so migrate doesn't crash on a fresh database
+    try:
+        categories = [category for category in Category.objects.all()]
+    except OperationalError:
+        pass
 
     class Meta:
         model = Post
