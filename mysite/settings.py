@@ -26,6 +26,7 @@ SECRET_KEY = '^7(x9-mo#0z*usl7tt-t2#aor(jn06ik!w_#@-+n&tvpw+(rp1'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'py230-ubtuntu02004019.westus.cloudapp.azure.com',
     '192.168.88.254',
     'localhost',
     '127.0.0.1',
@@ -41,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'polling',
     'blogging',
 ]
@@ -124,5 +130,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = 'http://localhost:8000/'
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from blogging.views import (
     stub_view,
     list_view,
@@ -14,4 +14,5 @@ urlpatterns = [
     path("unpublished/", unpublished_view, name="unpublished_view"),
     path("add/", add_post_view, name="add_post_view"),
     path("rss/", LatestEntriesFeed(), name="rss_view"),
+    path("accounts/", include("allauth.urls")),
 ]

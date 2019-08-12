@@ -7,6 +7,13 @@ from blogging.forms import PostForm, PublishForm, ListForm
 
 
 def list_view(request):
+    """
+    Displays a list view of each published post.
+
+    In the real world I'd likely want to limit the number of posts displayed incase
+    the blog grows large, with a 'display more' at the bottom.
+    Don't know how to do that yet though...
+    """
     if request.method == "POST":
         if not request.user.is_authenticated:
             return redirect("/login")
@@ -64,13 +71,27 @@ def unpublished_view(request):
 
 
 def add_post_view(request):
+    """
+    View for adding a new post.
+
+    I played around with html.escape here when saving the data to the database.
+    Django templates appear to autoescape data that it renders.  If I html.escape
+    the data before saving to the database, then django renders it as &lt; when
+    displaying to the user, not what I want.  There's an {% autoesacpe off %} tag
+    that will display the escaped content, however it also executes it in the case
+    of javascript saved into the database, this is even worse.  It seems that just
+    leaving it in django's hands works the best, let it save to the database and it
+    autoescapes when display.  Tested and it doesn't appear to execute javascript
+    saved into the database.  Still stripping ' since it could lead to a second order
+    sql injection attack.
+    """
     if request.user.is_authenticated:
         if request.method == "POST":
             form = PostForm(request.POST)
             if form.is_valid():
                 new_post = Post()
-                new_post.title = form.cleaned_data["title"]
-                new_post.text = form.cleaned_data["text"]
+                new_post.title = form.cleaned_data["title"].strip("'")
+                new_post.text = form.cleaned_data["text"].strip("'")
                 new_post.author = request.user
 
                 if form.cleaned_data["publish"]:
@@ -92,6 +113,9 @@ def add_post_view(request):
 
 
 def detail_view(request, post_id):
+    """
+    Displays a single requested post or 404 if it doesn't exist or isn't published
+    """
     published = Post.objects.exclude(published_date__exact=None)
 
     try:
@@ -104,6 +128,9 @@ def detail_view(request, post_id):
 
 
 def stub_view(request, *args, **kwargs):
+    """
+    Not used, left in for testing purposes
+    """
     body = "Stub View\n\n"
 
     if args:

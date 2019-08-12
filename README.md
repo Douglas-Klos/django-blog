@@ -3,6 +3,11 @@
 I liked this weeks assignment, it felt like actually putting work in and creating a site
 instead of just following instructions.
 
+## Google Login
+
+I don't have an active Facebook account so I implemented the 3rd party login using
+google's services.  Redirects to / after logging in.
+
 ## RSS Feed
 
 I don't have much experience working with RSS feeds, but I believe that I have this

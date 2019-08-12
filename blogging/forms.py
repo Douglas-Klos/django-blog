@@ -1,5 +1,5 @@
 from django.forms import ModelForm, BooleanField, DecimalField
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 from blogging.models import Post, Category
 
 
@@ -10,7 +10,7 @@ class PostForm(ModelForm):
     # The try block is so migrate doesn't crash on a fresh database
     try:
         categories = [category for category in Category.objects.all()]
-    except OperationalError:
+    except (OperationalError, ProgrammingError):
         pass
 
     class Meta:
