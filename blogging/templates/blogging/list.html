@@ -21,9 +21,6 @@
         {% csrf_token %}
 
         {% for post in posts %}
-        {% autoescape off %}
-        {{ post.text }}
-        {% endautoescape %}
             <div class="post">
                 <h2 style="margin: 0">
                     <a href="{% url 'blog_detail' post.pk %}">{{ post }}</a>
