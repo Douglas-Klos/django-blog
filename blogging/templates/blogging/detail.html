@@ -1,19 +1,17 @@
 {% extends "base.html" %} {% block content %}
 
-    <div class="col-container">
-        {% if user.is_authenticated %}
-            <div class="col" align="right">
-                <button id="newPost">New Post</button>
-                <script type="text/javascript">
-                    document.getElementById("newPost").onclick = function () {
-                        location.href = "/add/";
-                    };
-                </script>
-            </div>
-         {% endif %}
+    {% if user.is_authenticated %}
+        <div style="float: right">
+            <button id="newPost">New Post</button>
+            <script type="text/javascript">
+                document.getElementById("newPost").onclick = function () {
+                    location.href = "/add/";
+                };
+            </script>
+        {% endif %}
     </div>
-    <br>
-
+    <br><br>
+    
     <div class="post">
         <h2 style="margin: 0">
             {{ post.title }}

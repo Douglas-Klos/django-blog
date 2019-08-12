@@ -1,21 +1,19 @@
 {% extends "base.html" %}{% block content %}
-
-    <div class="col-container">
-        <div class="col">
-            <h1>Recent Posts</h1>
-        </div>
-
+        
+    <div style="float: right">
         {% if user.is_authenticated %}
             <div class="col" align="right">
                 <button id="newPost">New Post</button>
                 <script type="text/javascript">
                     document.getElementById("newPost").onclick = function () {
-                        location.href = "add/";
+                        location.href = "/add/";
                     };
                 </script>
             </div>
-         {% endif %}
+        {% endif %}
     </div>
+
+    <div style="margin: 0 auto; width: 300px; text-align: center"><h1>Glorious Blog<h1></div>
     
     <form method="post">
         {% csrf_token %}
@@ -40,7 +38,6 @@
                     <div class="col" align="right">
                         {{ post.author.username }}<br>
                         {{ post.published_date }}
-                
                         {% if post.author == user %}
                             <br>
                                 <button type="submit" value="{{ post.id }}" name="post_id">Unpublish</button>

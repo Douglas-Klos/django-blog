@@ -3,6 +3,8 @@
 I liked this weeks assignment, it felt like actually putting work in and creating a site
 instead of just following instructions.
 
+Blog is live at: py230-ubtuntu02004019.westus.cloudapp.azure.com
+
 ## Google Login
 
 I don't have an active Facebook account so I implemented the 3rd party login using
@@ -34,6 +36,22 @@ returned the unpublished posts view.
 The main list display view has been updated with an 'unpublish' button that is presented
 to the user on each of their posts.  This allows the user to unpublish the post.
 Unpublished posts can be republished from the unpublished view.
+
+
+### Issues
+
+One hang-up I'm having, I'm able to store time information in UTC, but when displaying
+it back to the user in templates, I can't get it to display in localtime.  I've tried
+various things such as:
+```
+{% load tz %}
+{{ post.published_date|localtime }}
+```
+It appears this is more complicated than just a form setting, that it needs javascript
+to get the users current timezone then and render it appropriately.  I'm open to
+suggestions.
+
+
 
 # Lesson 07 Assignment Notes
 

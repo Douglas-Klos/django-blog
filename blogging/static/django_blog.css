@@ -101,7 +101,6 @@ ul.categories li {
     display: table-cell; /* Make elements inside the container behave like table cells */
 }
 
-
 a, u {
     text-decoration: none;
 }
