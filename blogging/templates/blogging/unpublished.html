@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <h1>Unpublished Posts</h1>
+
+        {% if posts.count > 0 %}
+            {% for post in posts %}
+
+                <div class="post">
+                    <h2 style="margin: 0">
+                       {{ post.title }}
+                    </h2>
+
+                    <p class="post-body" style="white-space: pre-wrap;">{{ post.text }}</p>
+
+                    <div class="col-container">
+                        <div class="col">
+                            <b>Categories:</b><br>
+                            <ul class="categories">
+                                {% for category in post.categories.all %}
+                                    <li>{{ category }}</li><br>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col" align="right">
+                            {{ post.author.username }}<br><br>
+                            <button type="submit" value="{{ post.id }}" name="post_id">Publish</button>
+                        </div>
+                    </div>
+                </div>
+               
+                <br>
+            {% endfor %}
+
+        {% else %}
+            <p>You have no unpublished posts</p>
+            
+        {% endif %}
+    
+    </form>
+
+
+
+
+
+
+
+{% endblock %}

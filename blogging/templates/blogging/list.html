@@ -1,0 +1,54 @@
+{% extends "base.html" %}{% block content %}
+        
+    <div style="float: right">
+        {% if user.is_authenticated %}
+            <div class="col" align="right">
+                <button id="newPost">New Post</button>
+                <script type="text/javascript">
+                    document.getElementById("newPost").onclick = function () {
+                        location.href = "/add/";
+                    };
+                </script>
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="margin: 0 auto; width: 300px; text-align: center"><h1>Glorious Blog<h1></div>
+    
+    <form method="post">
+        {% csrf_token %}
+
+        {% for post in posts %}
+            <div class="post">
+                <h2 style="margin: 0">
+                    <a href="{% url 'blog_detail' post.pk %}">{{ post }}</a>
+                </h2>
+
+                <p class="post-body" style="white-space: pre-wrap;">{{ post.text }}</p>
+
+                <div class="col-container">
+                    <div class="col">
+                        <b>Categories:</b><br>
+                        <ul class="categories">
+                            {% for category in post.categories.all %}
+                                <li>{{ category }}</li><br>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col" align="right">
+                        {{ post.author.username }}<br>
+                        {{ post.published_date }}
+                        {% if post.author == user %}
+                            <br>
+                                <button type="submit" value="{{ post.id }}" name="post_id">Unpublish</button>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+            <br>
+        {% endfor %}
+    </form>
+{% endblock %}
+        
