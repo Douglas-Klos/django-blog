@@ -10,6 +10,9 @@ class Post(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     published_date = models.DateTimeField(blank=True, null=True)
 
+    def get_absolute_url(self):
+        return f"/post/{self.id}"
+
     def __str__(self):
         return self.title
 

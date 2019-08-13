@@ -1,6 +1,7 @@
 from django.contrib.syndication.views import Feed
 from django.urls import reverse
 from blogging.models import Post
+import html
 
 
 class LatestEntriesFeed(Feed):
@@ -9,13 +10,17 @@ class LatestEntriesFeed(Feed):
     description = "RSS Feed of My Glorious Blog"
 
     def items(self):
-        return Post.objects.all().order_by("-published_date")
+        # return Post.objects.all().order_by("-published_date")
+        return Post.objects.exclude(published_date__exact=None).order_by(
+            "-published_date"
+        )
 
     def item_title(self, item):
         return item.title
 
     def item_description(self, item):
-        return item.text
+        return item.text.replace("\n", "<br>")
 
-    def item_link(self, item):
-        return reverse("blog_detail", args=[item.id])
+    # # This is used if not using get_absolute_url() in models.py
+    # def item_link(self, item):
+    #     return reverse("blog_detail", args=[item.id])
