@@ -11,7 +11,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return f"/post/{self.id}"
+        return f"/posts/{self.id}"
 
     def __str__(self):
         return self.title
